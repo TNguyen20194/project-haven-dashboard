@@ -2,11 +2,11 @@
   "name": "dashboard-back-end",
   "version": "1.0.0",
   "description": "Connect to supabase",
-  "main": "index.ts",
+  "main": "server.ts",
   "type": "module",
   "scripts": {
-    "start": "tsx index.ts",
-    "dev": "nodemon --watch . --ext ts --exec tsx index.ts",
+    "start": "tsx server.ts",
+    "dev": "nodemon --watch . --ext ts --exec tsx server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Truong",
