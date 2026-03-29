@@ -1,0 +1,161 @@
+/* =========================================
+   Theme tokens for shadcn + custom palette
+   Uses: <html data-theme="light|dark">
+========================================= */
+
+/* Shared tokens (not theme-dependent) */
+:root {
+  /* Font Weight */
+  --fw-light: 400;
+  --fw-medium: 500;
+  --fw-medium-2: 600;
+  --fw-dark: 700;
+}
+
+/* -----------------------------
+   LIGHT THEME
+------------------------------ */
+:root[data-theme='light'] {
+  /* Base surfaces */
+  --background: 45 20% 97%;
+  --background-alt: 40 21% 93%;
+  --card: 40 15% 99%;
+  --popover: var(--card);
+  --white: 0 0% 100%;
+
+  /* Brand + palette */
+  --primary: 180 44.94% 34.9%;
+  --primary-alt: 200 20% 10%;
+  --secondary: 150 20.59% 86.67%;
+  --accent: 16.17 81.56% 72.35%;
+  --destructive: 0 100% 64.9%;
+  --pink: 345 55% 64%;
+  --blue: 204 45% 51%;
+  --teal: 178 60% 42%;
+  --coral: 8 65% 55%;
+  --yellow: 48 70% 80%;
+
+  /* Status Color */
+    --low-text-green: 140 60% 27%;
+  --low-bg-green: 138 45% 87%;
+  --moderate-text-yellow: 45 100% 27%;
+  --moderate-bg-yellow: 48 75% 88%;
+    --elevated-text-orange: 22 100% 31%;
+  --elevated-bg-orange: 25 55% 87%;
+  --high-text-red: 4 70% 41%;
+  --high-bg-red: 0 55% 91%;
+
+  /* UI surfaces */
+  --muted: 150 17.65% 93.33%;
+  --muted-1: 150 35% 90%;
+  --border: 140 23.08% 97.45%;
+  --input: 153.33 17.65% 90%;
+  --quote-bg: 180 26% 15%;
+
+  /* Text / neutral (custom) */
+  --white: 0 0% 100%;
+  --black: 0 0% 0%;
+  --soft-white: 0 0% 98.04%;
+
+  /* Optional supporting colors */
+  --warm-beige: 27.27 37.93% 94.31%;
+  --soft-grey: 0 0% 22.35%;
+  --dark-grey: 0 0% 11.37%;
+  --green-1: 180 25.64% 15.29%;
+  --green-1a: var(--green-1);
+  --green-1-reversed: var(--green-1);
+  --green-2: 87.1 42.47% 85.69%;
+  --green-3: 180 10.91% 43.14%;
+
+  /* Footer */
+  --fc-footer-heading: 150 25% 96.86%;
+  --fc-footer-text: 150 25% 96.86% / 0.698;
+
+  /* ===========================
+     shadcn REQUIRED MAPPINGS
+     (these make shadcn components
+     match your palette)
+  ============================ */
+  --foreground: var(--primary-alt);
+  --card-foreground: var(--primary-alt);
+  --popover-foreground: var(--primary-alt);
+
+  --primary-foreground: 0 0% 98%;
+  --secondary-foreground: var(--green-1);
+  --muted-foreground: var(--soft-grey);
+  --accent-foreground: var(--primary-alt);
+  --destructive-foreground: 0 0% 98%;
+
+  --ring: var(--primary);
+}
+
+/* -----------------------------
+   DARK THEME
+------------------------------ */
+:root[data-theme='dark'] {
+  /* Base surfaces */
+  --background: 200 15% 12%;
+  --background-alt: var(--muted-1);
+  --card: var(--background);
+  --popover: var(--card);
+  --white: var(--background-alt);
+
+  /* Brand */
+  --primary: 173.93 34.9% 50%;
+  --secondary: 180 37.21% 16.86%;
+  --accent: 16.17 81.56% 72.35%;
+  --destructive: 0 100% 64.9%;
+  --pink: 345 55% 64%;
+  --blue: 204 45% 51%;
+  --teal: 178 60% 42%;
+  --coral: 8 65% 55%;
+  --yellow: 48 70% 80%;
+
+  /* Status Color */
+     --low-text-green: 158 70% 67%;
+  --low-bg-green: 155 55% 16%;
+  --moderate-text-yellow: 45 95% 68%;
+  --moderate-bg-yellow: 42 60% 18%;
+    --elevated-text-orange: 34 95% 72%;
+  --elevated-bg-orange: 20 50% 15%;
+  --high-text-red: 356 65% 83%;
+  --high-bg-red: 356 48% 24%;
+
+  /* UI */
+  --muted: 200 11.76% 20%;
+  --muted-1: var(--muted);
+  --border: 205.26 19.59% 19.02%;
+  --input: 200 11.76% 20%;
+  --quote-bg: var(--muted);
+
+  /* Optional supporting colors */
+  --soft-grey: 208.8 14.29% 65.69%;
+  --green-1: 150 25% 96.86%;
+  --green-1a: 200 15% 12%;
+
+  /* Keep your existing neutral intent */
+  --white: 207.27 24.44% 8.82%;
+  --soft-white: 200 15% 12%;
+
+  /* If you still want "primary-alt" as light text in dark mode */
+  --primary-alt: var(--green-1);
+
+  /* Footer */
+  --fc-footer-heading: 150 25% 97%;
+  --fc-footer-text: 202.5 20% 68.63%;
+
+  /* ===========================
+     shadcn REQUIRED MAPPINGS
+  ============================ */
+  --foreground: var(--green-1);
+  --card-foreground: var(--green-1);
+  --popover-foreground: var(--green-1);
+
+  --primary-foreground: 200 15% 12%;
+  --secondary-foreground: var(--green-1);
+  --muted-foreground: var(--soft-grey);
+  --accent-foreground: 200 15% 12%;
+  --destructive-foreground: 0 0% 98%;
+
+  --ring: var(--primary);
+}
