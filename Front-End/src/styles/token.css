@@ -5,6 +5,8 @@
 
 /* Shared tokens (not theme-dependent) */
 :root {
+  --radius: 0.625rem;
+
   /* Font Weight */
   --fw-light: 400;
   --fw-medium: 500;

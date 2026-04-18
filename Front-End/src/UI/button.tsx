@@ -45,14 +45,10 @@ const Button: React.FC<ButtonProps> = ({
       );
     }
 
-    const child = children as React.ReactElement<any>;
+    const child = children as React.ReactElement<Record<string, unknown>>;
     const mergedClassName = `${classes} ${child.props.className ?? ""}`.trim();
 
-    const {
-      type, //button only
-      disabled, // button only
-      ...restProps
-    } = props;
+    const { disabled, ...restProps } = props;
 
 
     // 1 - Take the child elememt (NavLink or Link)

@@ -37,7 +37,7 @@ body {
   margin: 0;
   overflow-x: hidden;
   margin: 0;
-    scrollbar-gutter: stable;
+    /* scrollbar-gutter: stable; */
 }
 
 /* 6. Improve media defaults */
