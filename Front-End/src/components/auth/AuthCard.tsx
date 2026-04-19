@@ -15,33 +15,33 @@ import { type AuthMode, useAuthUiStore } from "@/stores/auth-ui.store";
 
 const passwordSchema = z
   .string()
-  .min(8, { message: "Password must be at least 8 characters long" })
-  .regex(/[A-Z]/, { message: "Must include at least one uppercase letter" })
-  .regex(/[a-z]/, { message: "Must include at least one lowercase letter" })
-  .regex(/\d/, { message: "Must include at least one number" })
+  .min(8, { error: "Password must be at least 8 characters long" })
+  .regex(/[A-Z]/, { error: "Must include at least one uppercase letter" })
+  .regex(/[a-z]/, { error: "Must include at least one lowercase letter" })
+  .regex(/\d/, { error: "Must include at least one number" })
   .regex(/[^A-Za-z0-9]/, {
-    message: "Must include at least one special character",
+    error: "Must include at least one special character",
   });
 
 const signupSchema = z
   .object({
     fullName: z
       .string()
-      .min(3, { message: "Full name must be at least 3 characters." }),
-    email: z.email({ message: "Please enter a valid email." }),
+      .min(3, { error: "Full name must be at least 3 characters." }),
+    email: z.email({ error: "Please enter a valid email." }),
     password: passwordSchema,
     confirmPassword: z
       .string()
-      .min(1, { message: "Please confirm your password." }),
+      .min(1, { error: "Please confirm your password." }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"], // Path of error
-    message: "Make sure password match.",
+    error: "Make sure password match.",
   });
 
 const loginSchema = z.object({
-  email: z.email({ message: "Please enter a valid email." }),
-  password: z.string().min(1, { message: "Please enter your password" }),
+  email: z.email({ error: "Please enter a valid email." }),
+  password: z.string().min(1, { error: "Please enter your password" }),
 });
 
 type AuthFormValues = {
@@ -204,7 +204,7 @@ const AuthCard = () => {
               validators={{
                 onChange: ({ value }) => {
                   const result = z
-                    .email({ message: "Please enter a valid email address." })
+                    .email({ error: "Please enter a valid email address." })
                     .safeParse(value);
 
                   return result.success
