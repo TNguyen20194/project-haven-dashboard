@@ -8,7 +8,7 @@ import { Card, CardContent } from "../ui/card";
 import Button from "@/UI/button";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { Tabs, TabsList, TabsContent } from "../ui/tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
 
 import { createUser, loginUser } from "@/lib/auth-storage";
 import { type AuthMode, useAuthUiStore } from "@/stores/auth-ui.store";
@@ -127,7 +127,118 @@ const AuthCard = () => {
     },
   });
 
-  return <h3>TEST</h3>;
+  const handleModeChange = (nextMode: string) => {
+    const safeMode: AuthMode = nextMode === "signup" ? "signup" : "login";
+
+    setMode(safeMode);
+    clearMessage();
+    form.reset();
+    setSearchParams({ mode: safeMode });
+  };
+
+  return (
+    <main className="auth-page">
+      <Card className="auth-page-container">
+        <CardContent className="p-0">
+          <div className="welcome">
+            <h1>Welcome</h1>
+            <p>Sign in to your account or create a new one</p>
+          </div>
+
+          <Tabs
+            value={mode}
+            onValueChange={handleModeChange}
+            className="w-full"
+          >
+            <TabsList className="auth-tabs grid w-full grid-cols-2">
+              <TabsTrigger value="login" className="auth-tab">
+                Login
+              </TabsTrigger>
+              <TabsTrigger value="signup" className="auth-tab">
+                Sign Up
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+
+          <form
+            className="mt-5 space-y-4"
+            onSubmit={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              void form.handleSubmit();
+            }}
+          >
+            {isSignUp && (
+              <form.Field
+                name="fullName"
+                validators={{
+                  onChange: ({ value }) => {
+                    const result = signupSchema.shape.fullName.safeParse(value);
+                    return result.success ? undefined : result.error.issues[0]?.message;
+                  },
+                }}
+              >
+                {(field) => (
+                  <div className="form-group">
+                    <Label htmlFor={field.name}>Full Name</Label>
+                    <Input
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      placeholder="Full Name"
+                      className="auth-input"
+                    />
+                    {field.state.meta.errors[0] ? (
+                      <p className="auth-field-error">
+                        {field.state.meta.errors[0]}
+                      </p>
+                    ) : null}
+                  </div>
+                )}
+              </form.Field>
+            )}
+            <form.Field
+              name="email"
+              validators={{
+                onChange: ({ value }) => {
+                  const result = z
+                    .email({ message: "Please enter a valid email address." })
+                    .safeParse(value);
+
+                  return result.success
+                    ? undefined
+                    : result.error.issues[0]?.message;
+                },
+              }}
+            >
+              {(field) => (
+                <div className="form-group">
+                  <Label htmlFor={field.name}>Email Address</Label>
+                  <Input
+                    id={field.name}
+                    name={field.name}
+                    type="email"
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    placeholder="email@address.com"
+                    className="auth-input"
+                  />
+                  {field.state.meta.errors[0] ? (
+                    <p className="auth-field-error">
+                      {field.state.meta.errors[0]}
+                    </p>
+                  ) : null}
+                </div>
+              )}
+            </form.Field>
+          </form>
+        </CardContent>
+      </Card>
+    </main>
+  );
 };
 
 export default AuthCard;
