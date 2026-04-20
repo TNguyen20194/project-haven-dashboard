@@ -27,7 +27,7 @@ export function createUser(user: StoredUser) {
     const users = getStoredUser();
 
     const alreadyExists = users.some(
-        (existingUser) => existingUser.email.trim().toLowerCase() === user.email.trim().toLocaleLowerCase());
+        (existingUser) => existingUser.email.trim().toLowerCase() === user.email.trim().toLowerCase());
 
    if(alreadyExists) {
     throw new Error("An account with this email already exists.")

@@ -326,31 +326,19 @@ const AuthCard = () => {
                 isSubmitting: state.isSubmitting,
               })}
             >
-              {({ isSubmitting }) => {
-                let label = isSignup ? "Create Account" : "Login";
-
-                if (isSubmitting) {
-                  label = "Please wait...";
-                } else if (messageType === "success") {
-                  label = "Success";
-                } else if (messageType === "error") {
-                  label = "Please try again";
-                }
-
-                return (
-                  <Button
-                    type="submit"
-                    className={[
-                      "auth-btn w-full",
-                      messageType === "success" ? "auth-btn--success" : "",
-                      messageType === "error" ? "auth-btn--error" : "",
-                    ].join(" ")}
-                    disabled={isSubmitting}
-                  >
-                    {label}
-                  </Button>
-                );
-              }}
+              {({ isSubmitting }) => (
+                <Button
+                  type="submit"
+                  className="auth-btn w-full"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting
+                    ? "Please wait..."
+                    : isSignup
+                      ? "Create Account"
+                      : "Login"}
+                </Button>
+              )}
             </form.Subscribe>
           </form>
 
