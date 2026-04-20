@@ -1,0 +1,208 @@
+/* ==========>> SECTIONS <<==========  */
+.section-container {
+  padding: 4rem 1.5rem;
+}
+
+.section-heading {
+  --fs-section: 2.75rem;
+  --lh-section: 3.5rem;
+  font-family: "Lora";
+  color: hsl(var(--green-1));
+  font-weight: var(--fw-medium-2);
+  font-size: var(--fs-section);
+  line-height: var(--lh-section);
+  text-align: center;
+}
+
+.sub-heading {
+  --fs-section: 2rem;
+  --lh-section: 2.4rem;
+  font-family: "Lora";
+  color: hsl(var(--green-1));
+  font-weight: var(--fw-medium-2);
+  font-size: var(--fs-section);
+  line-height: var(--lh-section);
+}
+
+.p-text {
+  color: hsl(var(--green-1));
+  font-size: 1rem;
+}
+
+.inner-container {
+  max-width: 75rem;
+  margin: 0 auto;
+}
+
+input[type="radio"] {
+  accent-color: hsl(var(--primary));
+}
+
+/* ======== AUTH PAGE ======== */
+.auth-page {
+  --color-valid: green;
+  --color-invalid: red;
+  --active-tab: rgba(242, 158, 127, 0.5);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 2rem 1.5rem;
+  background: hsl(var(--background));
+}
+
+.auth-page-container {
+  --tab-radius: 0.75rem;
+  width: 100%;
+  max-width: 460px;
+  padding: 2.5rem 2rem;
+  border-radius: 1.25rem;
+  border: 1px solid hsl(var(--border));
+  background-color: hsl(var(--card));
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.08),
+    0 6px 12px rgba(0, 0, 0, 0.04);
+}
+
+.welcome {
+  padding: 0 1rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.welcome h1 {
+  font-size: 2.5rem;
+  line-height: 1.1;
+  color: hsl(var(--green-1));
+  margin-bottom: 0.75rem;
+  font-family: "Lora", serif;
+}
+
+.welcome p {
+  color: hsl(var(--green-1));
+  font-weight: 400;
+}
+
+.auth-tabs {
+  --auth-tab-bg2: rgb(237, 239, 233);
+  margin-bottom: 1rem;
+  border-radius: calc(var(--tab-radius) - 2px);
+  background-color: var(--auth-tab-bg2);
+  padding: 0.315rem;
+  box-shadow:
+    0 10px 25px rgba(15, 23, 42, 0.06),
+    0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+.auth-tab {
+  border-radius: calc(var(--tab-radius) - 4px);
+  color: hsl(var(--primary));
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+/* Hover (non-active only) */
+.auth-tab:not([data-state="active"]):hover {
+  background-color: hsl(var(--background));
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.auth-tab[data-state="active"] {
+  background-color: var(--active-tab);
+  color: hsl(180 10% 15%); /* deep charcoal */
+  font-weight: 600;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-input {
+  margin-top: 0.45rem;
+  font-size: 0.875rem;
+  padding: 0.7rem 0.75rem;
+  border-radius: calc(0.75rem - 2px);
+  border: 2px solid transparent;
+  background-color: #fbf8f3;
+  color: hsl(var(--green-1));
+  outline: none;
+}
+
+.auth-input:focus-visible {
+  border-color: rgba(242, 158, 127, 0.5);
+  box-shadow: 0 0 0 1px rgba(0, 128, 128, 0.15);
+}
+
+.auth-input::placeholder {
+  color: hsl(var(--green-1) / 0.4);
+  opacity: 1; /* ensures consistent rendering across browsers */
+}
+
+.auth-btn {
+  color: hsl(var(--soft-white));
+  border-radius: calc(0.75rem - 2px);
+  background-color: hsl(var(--primary));
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 0.75rem;
+  width: 100%;
+  padding: 0.65rem 1rem;
+  border: none;
+  outline: none;
+  text-align: center;
+}
+
+.auth-btn:hover {
+  background-color: #3e8888;
+}
+
+.auth-field-error {
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  color: hsl(var(--destructive));
+}
+
+.message-container {
+  border: 1px solid transparent;
+  margin-top: 1rem;
+  padding: 0.35rem;
+  border-radius: 0.5rem;
+  min-height: 2.25rem;
+}
+
+.form-message {
+  font-size: 0.95rem;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.form-message--visible {
+  opacity: 1;
+}
+
+.form-message--error {
+  color: red;
+}
+
+.form-message--success {
+  color: green;
+}
+
+.message-container--error {
+  border-color: red;
+}
+
+.message-container--success {
+  border-color: green;
+}
+
+@media (max-width: 670px) {
+  .auth-page-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}

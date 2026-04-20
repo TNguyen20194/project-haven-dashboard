@@ -45,7 +45,7 @@ export function loginUser(email: string, password: string) {
     };
 
     const foundUser = users.find(
-        (user) => user.email.trim().toLowerCase() === email.trim().toLowerCase() && user.password === password
+        (user) => user.email.trim().toLowerCase() === email.trim().toLowerCase() && user.password.trim() === password.trim()
     );
 
     if(!foundUser) {

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import "./authCard.css";
 
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -70,7 +71,7 @@ const AuthCard = () => {
     setMode(urlMode);
   }, [searchParams, setMode]);
 
-  const isSignUp = mode === "signup";
+  const isSignup = mode === "signup";
 
   const form = useForm({
     defaultValues,
@@ -78,7 +79,7 @@ const AuthCard = () => {
       clearMessage();
 
       try {
-        if (isSignUp) {
+        if (isSignup) {
           const parsed = signupSchema.parse(value);
 
           createUser({
@@ -168,13 +169,15 @@ const AuthCard = () => {
               void form.handleSubmit();
             }}
           >
-            {isSignUp && (
+            {isSignup && (
               <form.Field
                 name="fullName"
                 validators={{
                   onChange: ({ value }) => {
                     const result = signupSchema.shape.fullName.safeParse(value);
-                    return result.success ? undefined : result.error.issues[0]?.message;
+                    return result.success
+                      ? undefined
+                      : result.error.issues[0]?.message;
                   },
                 }}
               >
@@ -199,6 +202,7 @@ const AuthCard = () => {
                 )}
               </form.Field>
             )}
+            {/* EMAIL */}
             <form.Field
               name="email"
               validators={{
@@ -234,7 +238,128 @@ const AuthCard = () => {
                 </div>
               )}
             </form.Field>
+
+            {/* PASSWORD */}
+            <form.Field
+              name="password"
+              validators={{
+                onChange: ({ value }) => {
+                  const result = isSignup
+                    ? passwordSchema.safeParse(value)
+                    : z
+                        .string()
+                        .min(1, { error: "Please enter your password." })
+                        .safeParse(value);
+
+                  return result.success
+                    ? undefined
+                    : result.error.issues[0].message;
+                },
+              }}
+            >
+              {(field) => (
+                <div className="form-group">
+                  <Label htmlFor={field.name}>Password</Label>
+                  <Input
+                    id={field.name}
+                    name={field.name}
+                    type="password"
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    placeholder={
+                      isSignup ? "Create Password" : "Enter Password"
+                    }
+                    className="auth-input"
+                  />
+                  {field.state.meta.errors[0] ? (
+                    <p className="auth-field-error">
+                      {field.state.meta.errors[0]}
+                    </p>
+                  ) : null}
+                </div>
+              )}
+            </form.Field>
+
+            {isSignup && (
+              <form.Field
+                name="confirmPassword"
+                validators={{
+                  onChangeListenTo: ["password"],
+                  onChange: ({ value, fieldApi }) => {
+                    const password = String(
+                      fieldApi.form.getFieldValue("password") ?? "",
+                    );
+                    if (!value) return "Please confirm your password.";
+                    if (value !== password) return "Make sure passwords match.";
+                    return undefined;
+                  },
+                }}
+              >
+                {(field) => (
+                  <div className="form-group">
+                    <Label htmlFor={field.name}>Confirm Password</Label>
+                    <Input
+                      id={field.name}
+                      name={field.name}
+                      type="password"
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      placeholder="Confirm Password"
+                      className="auth-input"
+                    />
+                    {field.state.meta.errors[0] ? (
+                      <p className="auth-field-error">
+                        {field.state.meta.errors[0]}
+                      </p>
+                    ) : null}
+                  </div>
+                )}
+              </form.Field>
+            )}
+
+            <form.Subscribe
+              selector={(state) => ({
+                isSubmitting: state.isSubmitting,
+              })}
+            >
+              {({ isSubmitting }) => (
+                <Button
+                  type="submit"
+                  className="auth-btn w-full"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting
+                    ? "Please wait..."
+                    : isSignup
+                      ? "Create Account"
+                      : "Login"}
+                </Button>
+              )}
+            </form.Subscribe>
           </form>
+
+          <div
+            className={[
+              "message-container",
+              messageType === "success" ? "message-container--success" : "",
+              messageType === "error" ? "message-container--error" : "",
+            ]
+              .filter(Boolean)
+              .join(" ")}
+          >
+            <p className={[
+                "form-message",
+                message ? "form-message--visible" : "",
+                messageType === "success" ? "form-message--success" : "",
+                messageType === "error" ? "form-message--error" : ""
+            ].filter(Boolean).join(" ")
+            }>
+                {message}
+            </p>
+
+          </div>
         </CardContent>
       </Card>
     </main>
