@@ -136,7 +136,10 @@ const AuthCard = () => {
     setMode(safeMode);
     clearMessage();
     form.reset();
-    setSearchParams({ mode: safeMode });
+    setSearchParams((searchParam) => {
+      searchParam.set("mode", safeMode);
+      return searchParam;
+    });
   };
 
   return (
