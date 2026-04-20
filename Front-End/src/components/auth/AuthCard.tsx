@@ -9,7 +9,7 @@ import { Card, CardContent } from "../ui/card";
 import Button from "@/UI/button";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 
 import { createUser, loginUser } from "@/lib/auth-storage";
 import { type AuthMode, useAuthUiStore } from "@/stores/auth-ui.store";
@@ -79,6 +79,8 @@ const AuthCard = () => {
       clearMessage();
 
       try {
+        await new Promise((resolve) => setTimeout(resolve, 900));
+
         if (isSignup) {
           const parsed = signupSchema.parse(value);
 
@@ -324,19 +326,31 @@ const AuthCard = () => {
                 isSubmitting: state.isSubmitting,
               })}
             >
-              {({ isSubmitting }) => (
-                <Button
-                  type="submit"
-                  className="auth-btn w-full"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting
-                    ? "Please wait..."
-                    : isSignup
-                      ? "Create Account"
-                      : "Login"}
-                </Button>
-              )}
+              {({ isSubmitting }) => {
+                let label = isSignup ? "Create Account" : "Login";
+
+                if (isSubmitting) {
+                  label = "Please wait...";
+                } else if (messageType === "success") {
+                  label = "Success";
+                } else if (messageType === "error") {
+                  label = "Please try again";
+                }
+
+                return (
+                  <Button
+                    type="submit"
+                    className={[
+                      "auth-btn w-full",
+                      messageType === "success" ? "auth-btn--success" : "",
+                      messageType === "error" ? "auth-btn--error" : "",
+                    ].join(" ")}
+                    disabled={isSubmitting}
+                  >
+                    {label}
+                  </Button>
+                );
+              }}
             </form.Subscribe>
           </form>
 
@@ -349,16 +363,18 @@ const AuthCard = () => {
               .filter(Boolean)
               .join(" ")}
           >
-            <p className={[
+            <p
+              className={[
                 "form-message",
                 message ? "form-message--visible" : "",
                 messageType === "success" ? "form-message--success" : "",
-                messageType === "error" ? "form-message--error" : ""
-            ].filter(Boolean).join(" ")
-            }>
-                {message}
+                messageType === "error" ? "form-message--error" : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
+            >
+              {message}
             </p>
-
           </div>
         </CardContent>
       </Card>
