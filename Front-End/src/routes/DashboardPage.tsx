@@ -2,7 +2,6 @@ import { getCurrentUser, logoutUser } from "@/lib/auth-storage";
 import { useNavigate } from "react-router-dom";
 import Button from "@/UI/button";
 import { ClipboardList } from "lucide-react";
-import { tr } from "zod/v4/locales";
 
 const sessions = [
   {
@@ -10,65 +9,41 @@ const sessions = [
     name: "Emily Carter",
     email: "emily.carter@email.com",
     completed: "2026-03-22 09:14",
-    questions: 15,
-    duration: "12m 30s",
-    status: "Completed",
-    topResultLabel: "Anxiety",
-    topResultScore: "62/100",
-    resultTone: "warning",
+    questions: 10,
+    topResultStatus: "Moderate",
   },
   {
     id: 2,
     name: "James Rivera",
     email: "james.r@email.com",
     completed: "2026-03-22 08:41",
-    questions: 15,
-    duration: "9m 15s",
-    status: "Completed",
-    topResultLabel: "Burnout Risk",
-    topResultScore: "84/100",
-    resultTone: "success",
+    questions: 10,
+    topResultStatus: "High Concern",
   },
   {
     id: 3,
     name: "Aisha Patel",
     email: "aisha.p@email.com",
     completed: "2026-03-21 17:22",
-    questions: 12,
-    duration: "14m 05s",
-    status: "Partial",
-    topResultLabel: "Overall Wellness",
-    topResultScore: "88/100",
-    resultTone: "success",
-  },
-  {
-    id: 4,
-    name: "Marcus Thompson",
-    email: "marcus.t@email.com",
-    completed: "2026-03-21 14:05",
-    questions: 15,
-    duration: "11m 48s",
-    status: "Completed",
-    topResultLabel: "Stress Management",
-    topResultScore: "55/100",
-    resultTone: "warning",
+    questions: 10,
+    topResultStatus: "Low Concern",
   },
 ];
 
-const getStatusClasses = (status: string) => {
-  if (status === "Completed") {
-    return "bg-blue-600 text-white";
+const getTopResultPillClasses = (status: string) => {
+  switch (status) {
+    case "Low Concern":
+      return "bg-[#EAF8EF] text-[#15803D]";
+
+    case "Moderate":
+      return "bg-[#FDF4D7] text-[#A16207]";
+
+    case "High Concern":
+      return "bg-[#FDE8E8] text-[#DC2626]";
+
+    default:
+      return "bg-gray-100 text-gray-700";
   }
-
-  return "bg-neutral-200 text-neutral-700";
-};
-
-const getResultBadgeClasses = (tone: "success" | "warning") => {
-  if (tone === "success") {
-    return "bg-emerald-50 text-emerald-600 ring-1 ring-inset ring-emerald-200";
-  }
-
-  return "bg-amber-50 text-amber-600 ring-1 ring-inset ring-amber-200";
 };
 
 const DashboardPage = () => {
@@ -124,16 +99,16 @@ const DashboardPage = () => {
             <table className="min-w-full text-left table-fixed border-collaspe">
               <thead className="bg-[hsl(var(--card))]">
                 <tr className="border-b-[1px] border-[hsl(var(--green-1)/0.25)]">
-                  <th className="w-1/4 px-6 py-4 text-sm font-medium text-[hsl(var(--green-1))]">
+                  <th className="w-1/4 px-6 py-4 text-sm font-medium text-[hsl(var(--green-1)/0.8)]">
                     User
                   </th>
-                  <th className="w-1/4 px-6 py-4 text-sm font-medium text-[hsl(var(--green-1))]">
+                  <th className="w-1/4 px-6 py-4 text-sm font-medium text-[hsl(var(--green-1)/0.8)]">
                     Completed
                   </th>
-                  <th className="w-1/4 px-6 py-4 text-sm font-medium text-[hsl(var(--green-1))]">
+                  <th className="w-1/4 px-6 py-4 text-sm font-medium text-[hsl(var(--green-1)/0.8)]">
                     Questions
                   </th>
-                  <th className="w-1/4 px-6 py-4 text-sm font-medium text-[hsl(var(--green-1))]">
+                  <th className="w-1/4 px-6 py-4 text-sm font-medium text-[hsl(var(--green-1)/0.8)]">
                     Top Results
                   </th>
                 </tr>
@@ -173,14 +148,13 @@ const DashboardPage = () => {
                         </td>
 
                         <td className="px-6 py-5">
-                          <div className="flex items-center gap-2 text-sm text-[hsl(var(--green-1))]">
-                            <span>{session.topResultLabel}</span>
+                          <div className="flex items-center gap-3 text-sm text-[hsl(var(--green-1))]">
                             <span
-                              className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${getResultBadgeClasses(
-                                session.resultTone as "success" | "warning",
+                              className={`inline-flex rounded-full px-4 py-1.5 text-xs font-medium ${getTopResultPillClasses(
+                                session.topResultStatus,
                               )}`}
                             >
-                              {session.topResultScore}
+                              {session.topResultStatus}
                             </span>
                           </div>
                         </td>
@@ -198,4 +172,3 @@ const DashboardPage = () => {
 };
 
 export default DashboardPage;
-
