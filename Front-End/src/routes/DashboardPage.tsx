@@ -6,24 +6,21 @@ import { ClipboardList } from "lucide-react";
 const sessions = [
   {
     id: 1,
-    name: "Emily Carter",
-    email: "emily.carter@email.com",
+    name: "Participant #1042",
     completed: "2026-03-22 09:14",
     questions: 10,
     topResultStatus: "Moderate",
   },
   {
     id: 2,
-    name: "James Rivera",
-    email: "james.r@email.com",
+    name: "Participant #1043",
     completed: "2026-03-22 08:41",
     questions: 10,
     topResultStatus: "High Concern",
   },
   {
     id: 3,
-    name: "Aisha Patel",
-    email: "aisha.p@email.com",
+    name: "Participant #1044",
     completed: "2026-03-21 17:22",
     questions: 10,
     topResultStatus: "Low Concern",
@@ -133,9 +130,6 @@ const DashboardPage = () => {
                         <td className="px-6 py-5">
                           <div className="font-medium text-[hsl(var(--foreground))]">
                             {session.name}
-                          </div>
-                          <div className="mt-1 text-sm text-[hsl(var(--green-1))]">
-                            {session.email}
                           </div>
                         </td>
 
