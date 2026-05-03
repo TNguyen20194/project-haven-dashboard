@@ -51,7 +51,7 @@ router.post("/", async (req, res) => {
   });
 });
 
-router.get("/", async (req, res) => {
+router.get("/", async (_req, res) => {
   const { data, error } = await supabase
     .from("assessment_sessions")
     .select("*")
@@ -63,9 +63,7 @@ router.get("/", async (req, res) => {
     });
   }
 
-  return res.status(200).json({
-    message: data,
-  });
+  return res.status(200).json(data);
 });
 
 export default router;

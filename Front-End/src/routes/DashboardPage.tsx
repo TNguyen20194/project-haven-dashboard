@@ -2,40 +2,51 @@ import { getCurrentUser, logoutUser } from "@/lib/auth-storage";
 import { useNavigate } from "react-router-dom";
 import Button from "@/UI/button";
 import { ClipboardList } from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+  getAssessmentSession,
+  type AssessmentSession,
+} from "@/lib/assessmentSessionApi";
 
-const sessions = [
-  {
-    id: 1,
-    name: "Participant #1042",
-    completed: "2026-03-22 09:14",
-    questions: 10,
-    topResultStatus: "Moderate",
-  },
-  {
-    id: 2,
-    name: "Participant #1043",
-    completed: "2026-03-22 08:41",
-    questions: 10,
-    topResultStatus: "High Concern",
-  },
-  {
-    id: 3,
-    name: "Participant #1044",
-    completed: "2026-03-21 17:22",
-    questions: 10,
-    topResultStatus: "Low Concern",
-  },
-];
+// const sessions = [
+//   {
+//     id: 1,
+//     name: "Participant #1042",
+//     completed: "2026-03-22 09:14",
+//     questions: 10,
+//     topResultStatus: "Moderate",
+//   },
+//   {
+//     id: 2,
+//     name: "Participant #1043",
+//     completed: "2026-03-22 08:41",
+//     questions: 10,
+//     topResultStatus: "High Concern",
+//   },
+//   {
+//     id: 3,
+//     name: "Participant #1044",
+//     completed: "2026-03-21 17:22",
+//     questions: 10,
+//     topResultStatus: "Low Concern",
+//   },
+// ];
+
+const RESULT_LABELS = {
+  low: "Low Support Needed",
+  moderate: "Moderate Support Needed",
+  high: "High Support Needed",
+};
 
 const getTopResultPillClasses = (status: string) => {
   switch (status) {
-    case "Low Concern":
+    case "low":
       return "bg-[#EAF8EF] text-[#15803D]";
 
-    case "Moderate":
+    case "moderate":
       return "bg-[#FDF4D7] text-[#A16207]";
 
-    case "High Concern":
+    case "high":
       return "bg-[#FDE8E8] text-[#DC2626]";
 
     default:
@@ -44,6 +55,25 @@ const getTopResultPillClasses = (status: string) => {
 };
 
 const DashboardPage = () => {
+  const [sessions, setSessions] = useState<AssessmentSession[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    const loadSession = async () => {
+      try {
+        const data = await getAssessmentSession();
+        setSessions(data);
+      } catch {
+        setErrorMessage("Unable to load questionnaire sessions.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadSession();
+  }, []);
+
   const navigate = useNavigate();
   const currentUser = getCurrentUser();
 
@@ -117,7 +147,7 @@ const DashboardPage = () => {
                       colSpan={4}
                       className="px-6 py-8 text-center text-sm text-[hsl(var(--green-1))]"
                     >
-                      No Sessions Foumd.
+                      No Sessions Found.
                     </td>
                   </tr>
                 ) : (
@@ -129,26 +159,27 @@ const DashboardPage = () => {
                       >
                         <td className="px-6 py-5">
                           <div className="font-medium text-[hsl(var(--foreground))]">
-                            {session.name}
+                            {session.participant_name}
                           </div>
                         </td>
 
                         <td className="px-6 py-5 text-sm text-[hsl(var(--green-1))]">
-                          {session.completed}
+                          {new Date(session.completed_at).toLocaleString()}
                         </td>
 
                         <td className="px-6 py-5 text-sm text-[hsl(var(--green-1))]">
-                          {session.questions}
+                          {session.question_count}
                         </td>
 
                         <td className="px-6 py-5">
                           <div className="flex items-center gap-3 text-sm text-[hsl(var(--green-1))]">
                             <span
                               className={`inline-flex rounded-full px-4 py-1.5 text-xs font-medium ${getTopResultPillClasses(
-                                session.topResultStatus,
+                                session.result_level,
                               )}`}
                             >
-                              {session.topResultStatus}
+                              {RESULT_LABELS[session.result_level]} ·{" "}
+                              {session.score}/50
                             </span>
                           </div>
                         </td>
