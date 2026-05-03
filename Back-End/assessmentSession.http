@@ -1,0 +1,15 @@
+GET  http://localhost:3000/api/assessment-sessions HTTP/1.1
+content-type: application/json
+
+###
+
+POST   http://localhost:3000/api/assessment-sessions HTTP/1.1
+content-type: application/json
+
+{
+  "questionCount": 10,
+  "resultLevel": "low",
+  "score": 30,
+  "completedAt": "2026-05-03T23:23:00.000Z"
+}
+###

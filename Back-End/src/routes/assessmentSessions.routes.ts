@@ -46,9 +46,7 @@ router.post("/", async (req, res) => {
     });
   }
 
-  return res.status(200).json({
-    message: updatedSession,
-  });
+  return res.status(200).json(updatedSession);
 });
 
 router.get("/", async (_req, res) => {

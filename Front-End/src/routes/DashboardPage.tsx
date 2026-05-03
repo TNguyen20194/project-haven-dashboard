@@ -141,7 +141,25 @@ const DashboardPage = () => {
                 </tr>
               </thead>
               <tbody>
-                {sessions.length === 0 ? (
+                {isLoading ? (
+                  <tr>
+                    <td
+                      colSpan={4}
+                      className="px-6 py-8 text-center text-sm text-[hsl(var(--green-1))]"
+                    >
+                      Loading Sessions...
+                    </td>
+                  </tr>
+                ) : errorMessage ? (
+                  <tr>
+                    <td
+                      colSpan={4}
+                      className="px-6 py-8 text-center text-sm text-red-600"
+                    >
+                      {errorMessage}
+                    </td>
+                  </tr>
+                ) : sessions.length === 0 ? (
                   <tr>
                     <td
                       colSpan={4}
