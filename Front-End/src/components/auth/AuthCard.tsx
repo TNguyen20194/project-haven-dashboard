@@ -13,6 +13,7 @@ import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 
 import { createUser, loginUser } from "@/lib/auth-storage";
 import { type AuthMode, useAuthUiStore } from "@/stores/auth-ui.store";
+import supabase from "@/client/client";
 
 const passwordSchema = z
   .string()
@@ -81,36 +82,14 @@ const AuthCard = () => {
       try {
         await new Promise((resolve) => setTimeout(resolve, 900));
 
-        if (isSignup) {
-          const parsed = signupSchema.parse(value);
-
-          createUser({
-            fullName: parsed.fullName.trim(),
-            email: parsed.email.trim(),
-            password: parsed.password,
-          });
-
-          setMessage("Successfully registered!", "success");
-
-          setTimeout(() => {
-            navigate("/dashboard");
-          }, 900);
-
-          return;
+        if(isSignup) {
+          console.log("Signup user")
+          await handleSignUp(value);
+        } else {
+          console.log("Login user")
+           await handleLogin(value);
         }
 
-        const parsed = loginSchema.parse({
-          email: value.email,
-          password: value.password,
-        });
-
-        loginUser(parsed.email, parsed.password);
-
-        setMessage("Login successfully!", "success");
-
-        setTimeout(() => {
-          navigate("/dashboard");
-        }, 900);
       } catch (error) {
         if (error instanceof z.ZodError) {
           setMessage(
@@ -129,6 +108,57 @@ const AuthCard = () => {
       }
     },
   });
+
+  async function handleSignUp(value: {
+    email: string;
+    password: string;
+    fullName: string;
+  }) {
+    const parsed = signupSchema.parse(value);
+
+    const { error } = await supabase.auth.signUp({
+      email: parsed.email,
+      password: parsed.password,
+      options: {
+        data: {
+          full_name: parsed.fullName,
+        },
+      },
+    });
+
+    if (error) {
+      throw new Error("Sign up failed. Please try again.");
+    }
+
+    setMessage("Successfully registered!", "success");
+
+    setTimeout(() => {
+      navigate("/dashboard");
+    }, 900);
+  }
+
+  async function handleLogin(value: {email: string, password: string}) {
+    // const parsed = loginSchema.parse({
+    //   email: value.email,
+    //   password: value.password,
+    // });
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: value.email,
+      password: value.password,
+    });
+console.log(data)
+     if (error) {
+      console.error(error);
+    }
+
+    console.log("Login user")
+    setMessage("Login successfully!", "success");
+
+    setTimeout(() => {
+      navigate("/dashboard");
+    }, 900);
+  }
 
   const handleModeChange = (nextMode: string) => {
     const safeMode: AuthMode = nextMode === "signup" ? "signup" : "login";

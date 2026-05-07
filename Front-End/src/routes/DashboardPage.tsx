@@ -1,3 +1,4 @@
+import supabase from "@/client/client";
 import { getCurrentUser, logoutUser } from "@/lib/auth-storage";
 import { useNavigate } from "react-router-dom";
 import Button from "@/UI/button";
@@ -77,8 +78,12 @@ const DashboardPage = () => {
   const navigate = useNavigate();
   const currentUser = getCurrentUser();
 
-  const handleLogout = () => {
-    logoutUser();
+  const handleLogout = async () => {
+     const { error } = await supabase.auth.signOut()
+
+     if(error) {
+      throw new Error("Error logging out.")
+     }
     navigate("/auth?mode=login");
   };
 
